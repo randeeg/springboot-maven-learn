@@ -27,4 +27,31 @@ jobs:
           mvn clean
           mvn -B package --file pom.xml
 
-# steps....
+# Creating the docker image from application,
+# A container with jar file of application and 
+# publish on docker hub (push image)
+      - name:  Build docker Image
+        uses:  actions/build-push-action@v2
+        with:
+          context: .
+          dockerfile: Dockerfile
+          push: false
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/github-images:$(date-'%m-%d-%Y')
+    
+      - name:  Log in to docker
+        uses:  docker/login-action@v1
+        with:
+          username:  ${{ secrets.DOCKER_HUB_USERNAME}}
+          PASSWORD:  ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
+      
+      - name: Push Image to dockerhub
+        uses: actions/build-push-action@v2
+        with:
+          context:  .
+          dockerfile:  Dockerfile
+          push:  true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/github-images:$(date-'%m-%d-%Y')
+
+
+
+
