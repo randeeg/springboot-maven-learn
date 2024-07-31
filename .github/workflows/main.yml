@@ -16,8 +16,7 @@ jobs:
 
       - name:  Get the current Date
         id:  date
-#        run: echo "::set-output name=date::$(date +%d/%m/%Y-%H:%M:%S)"
-        run:  echo "::set-output name=date::$(date +%Y-%h-%M)"
+        run: echo "::set-output name=date::$(date +%Y-%m-%d)"
 
       - name:  Setup JDK 17
         uses:  actions/setup-java@v4
